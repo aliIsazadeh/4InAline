@@ -439,4 +439,16 @@
         app:layout_constraintStart_toEndOf="@+id/btn65"
         app:layout_constraintTop_toBottomOf="@+id/btn56" />
 
+    <TextView
+        android:id="@+id/goalText"
+        android:layout_width="274dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginLeft="172dp"
+        android:layout_marginTop="224dp"
+        android:text="TextView"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn63" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

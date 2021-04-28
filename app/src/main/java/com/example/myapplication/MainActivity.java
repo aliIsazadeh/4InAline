@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -13,9 +14,9 @@ import com.example.myapplication.playPlace.Table;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Table table = new Table();
-    int currentPlayer =1;
-    int ij = 71;
+    Table table = new Table(); //زمین بازی
+    int currentPlayer =1;//نفر در حال بازی
+    int ij = 71;//id خانه
 
 
 
@@ -25,20 +26,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
     }
-    public  void setTaw(View v){
+
+    //متد onClick
+    public  void setTaw(View v){//متد on click
         setInArray(v);
-
-
-
     }
-    public void setInArray( View v){
+
+    //متد جایگذاری در زمین بازی
+    public void setInArray( View v){//متد جایگذاری در آرایه
 
         Button b = (Button)v;
         int cum = Integer.parseInt((String) b.getText());
-
-
-
-
 
 
         if (!table.isEmp(0,cum)){
@@ -48,19 +46,28 @@ public class MainActivity extends AppCompatActivity {
 
                 if(i==6&&table.isEmp(i,cum)){
                     ij= i*10 + cum;
-                    changeColor(ij , currentPlayer);
+
                     table.setIn(i,cum,currentPlayer);
+                    changeColor(ij , currentPlayer);
+                    checkGoal(i,cum);
+
                     i=-1;
                 }
                 else if (i==0){
-                    table.setIn(i,cum,currentPlayer);
                     ij = i*10 + cum;
+
+                    table.setIn(i,cum,currentPlayer);
                     changeColor(ij, currentPlayer);
+                    checkGoal(i,cum);
+
                 }else if(i<6)
-                    if (!table.isEmp(i+1,cum)){
-                    table.setIn(i,cum,currentPlayer);
-                    ij = i*10 + cum;
-                    changeColor(ij, currentPlayer);
+                    if (!table.isEmp(i+1,cum)&&table.isEmp(i,cum)){
+                        ij = i*10 + cum;
+
+                        table.setIn(i,cum,currentPlayer);
+                        changeColor(ij, currentPlayer);
+                        checkGoal(i,cum);
+
                     i=-1;
 
                 }
@@ -79,6 +86,179 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //متد چک کردن رسیدن به هدف
+    public void checkGoal(int i , int j){
+        checkGoalUpright(i , j);
+        checkGoalStraight(i , j);
+        checkGoalRising(i,j);
+        checkGoalFalling(i,j);
+    }
+
+    //رسیدن به هدف عمودی
+    public void checkGoalUpright(int i , int j){// جستجو رو عمودی
+        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+        int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+        if (i<6) {
+            for (int k = i; flag == table.getCurrentInt(i + 1, j); k++) {// جستجوی رو به پایین
+
+                if (flag == table.getCurrentInt(k + 1, j)) {
+                    some++;
+                }else {
+                    break;
+                }
+                if (k == 5) {
+                    break;
+                }
+
+            }
+            if (some == 4) {
+                TextView textView = (TextView) findViewById(R.id.goalText);
+                textView.setText("goal");
+                //ToDo set colors and set buttons
+            }
+
+        }
+
+    }
+
+    //رسیدن به هدف افقی
+    public void checkGoalStraight(int i , int j){
+        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+        int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+
+        if (j>=0&&j<6) {//جستجو به راست
+            for (int k = j; flag == table.getCurrentInt(i, j +1); k++) {
+                if (flag==table.getCurrentInt(i,k+1)){
+
+                    some++;
+                }else {
+                    break;
+                }
+                if (k==5){
+                    break;
+                }
+            }
+        }
+        if (j<=6&&j>0){//جستجو به چپ
+            for (int k = j; flag == table.getCurrentInt(i, j -1); k--) {
+                if (flag==table.getCurrentInt(i,k-1)){
+
+                    some++;
+                }else {
+                    break;
+                }
+                if (k==1){
+                    break;
+                }
+            }
+
+        }
+        if (some == 4) {
+            TextView textView = (TextView) findViewById(R.id.goalText);
+            textView.setText("goal");
+            //ToDo set colors and set buttons
+        }
+
+    }
+
+    //رسیدن به هدف صعودی
+    public void checkGoalRising(int i , int j){
+        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+        int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+
+        if (j>=0&& j<6 && i<=6&& i>0){//صعودی رو به بالا
+            for (int k = i , c = j ; flag==table.getCurrentInt(i-1,j+1); k --,c++){
+                if (flag==table.getCurrentInt(k-1,c+1)){
+                    some++;
+                }else {
+                    break;
+                }if (some==4){
+                    break;
+                }
+                if (k==1){
+                    break;
+                }
+                if (c==5){
+                    break;
+                }
+            }
+        }
+
+        if (j<=6 && j>0 && i>=0 && i<6){//صعودی رو به پایین
+            for (int k = i , c = j ; flag==table.getCurrentInt(i+1,j-1); k ++,c--){
+                if (flag==table.getCurrentInt(k+1,c-1)){
+                    some++;
+                }else {
+                    break;
+                }if (some==4){
+                    break;
+                }if (k==5){
+                    break;
+                }if (c==1){
+                    break;
+                }
+            }
+        }
+
+        if (some == 4) {
+            TextView textView = (TextView) findViewById(R.id.goalText);
+            textView.setText("goal");
+            //ToDo set colors and set buttons
+        }
+
+
+
+    }
+
+    //رسیدن به هدف نزولی
+    public void checkGoalFalling(int i , int j){
+        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+        int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+
+        if (j>0&& j<=6 && i<=6&& i>0){//نزولی رو به بالا
+            for (int k = i , c = j ; flag==table.getCurrentInt(i-1,j-1); k --,c--){
+                if (flag==table.getCurrentInt(k-1,c-1)){
+                    some++;
+                }else {
+                    break;
+                }if (some==4){
+                    break;
+                }
+                if (k==1){
+                    break;
+                }
+                if (c==1){
+                    break;
+                }
+            }
+        }
+        if (j>=0&& j<6 && i<6&& i>=0){//نزولی رو به پایین
+            for (int k = i , c = j ; flag==table.getCurrentInt(i+1,j+1); k ++,c++){
+                if (flag==table.getCurrentInt(k+1,c+1)){
+                    some++;
+                }else {
+                    break;
+                }if (some==4){
+                    break;
+                }
+                if (k==5){
+                    break;
+                }
+                if (c==5){
+                    break;
+                }
+            }
+        }
+        if (some == 4) {
+            TextView textView = (TextView) findViewById(R.id.goalText);
+            textView.setText("goal");
+            //ToDo set colors and set buttons
+        }
+
+
+    }
+
+    //متد تعویض رنگ
     public void changeColor( int id , int currentPlayer){
 
 
@@ -482,7 +662,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
 
 }
