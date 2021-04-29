@@ -201,9 +201,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (some == 4) {
-            TextView textView = (TextView) findViewById(R.id.goalText);
-            textView.setText("goal");
-            //ToDo set colors and set buttons
+            setGoalRisingCheck(i,j);
         }
 
 
@@ -258,62 +256,110 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    public void setGoalRisingCheck(int i , int j){
+        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+        int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+        changeColorOnGoal(i ,j);
+
+        if (j>=0&& j<6 && i<=6&& i>0){//صعودی رو به بالا
+            for (int k = i , c = j ; flag==table.getCurrentInt(i-1,j+1); k --,c++){
+                if (flag==table.getCurrentInt(k-1,c+1)){
+                    some++;
+                    changeColorOnGoal(k-1 ,c+1);
+                }else {
+                    break;
+                }if (some==4){
+                    break;
+                }
+                if (k==1){
+                    break;
+                }
+                if (c==5){
+                    break;
+                }
+            }
+        }
+
+        if (j<=6 && j>0 && i>=0 && i<6){//صعودی رو به پایین
+            for (int k = i , c = j ; flag==table.getCurrentInt(i+1,j-1); k ++,c--){
+                if (flag==table.getCurrentInt(k+1,c-1)){
+                    some++;
+                    changeColorOnGoal(k+1 ,c-1);
+                }else {
+                    break;
+                }if (some==4){
+                    break;
+                }if (k==5){
+                    break;
+                }if (c==1){
+                    break;
+                }
+            }
+        }
+        disableButtons();
+        TextView textView = (TextView) findViewById(R.id.goalText);
+        textView.setText("goal");
+
+
+    }
+
     //متد تعویض رنگ
     public void changeColor( int id , int currentPlayer){
 
 
-        if (id==00){
+        if (id==0){
             Button b = (Button)findViewById(R.id.btn00);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
         }
-        else if (id==01){
+        else if (id==1){
             Button b = (Button)findViewById(R.id.btn01);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
         }
-        else if (id==02){
+        else if (id==2){
             Button b = (Button)findViewById(R.id.btn02);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
         }
-        else if (id==03){
+        else if (id==3){
             Button b = (Button)findViewById(R.id.btn03);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
         }
-        else if (id==04){
+        else if (id==4){
             Button b = (Button)findViewById(R.id.btn04);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
         }
-        else if (id==05){
+        else if (id==5){
             Button b = (Button)findViewById(R.id.btn05);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
         }
-        else if (id==06){
+        else if (id==6){
             Button b = (Button)findViewById(R.id.btn06);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -321,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==10){
             Button b = (Button)findViewById(R.id.btn10);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -330,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==11){
             Button b = (Button)findViewById(R.id.btn11);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -338,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==12){
             Button b = (Button)findViewById(R.id.btn12);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -346,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==13){
             Button b = (Button)findViewById(R.id.btn13);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -354,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==14){
             Button b = (Button)findViewById(R.id.btn14);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -362,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==15){
             Button b = (Button)findViewById(R.id.btn15);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -370,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==16){
             Button b = (Button)findViewById(R.id.btn16);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -378,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==20){
             Button b = (Button)findViewById(R.id.btn20);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -387,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==21){
             Button b = (Button)findViewById(R.id.btn21);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -395,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==22){
             Button b = (Button)findViewById(R.id.btn22);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -403,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==23){
             Button b = (Button)findViewById(R.id.btn23);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -411,7 +457,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==24){
             Button b = (Button)findViewById(R.id.btn24);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -419,7 +465,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==25){
             Button b = (Button)findViewById(R.id.btn25);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -427,7 +473,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==26){
             Button b = (Button)findViewById(R.id.btn26);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -435,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==30){
             Button b = (Button)findViewById(R.id.btn30);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -444,7 +490,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==31){
             Button b = (Button)findViewById(R.id.btn31);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -452,7 +498,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==32){
             Button b = (Button)findViewById(R.id.btn32);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -460,7 +506,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==33){
             Button b = (Button)findViewById(R.id.btn33);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -468,7 +514,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==34){
             Button b = (Button)findViewById(R.id.btn34);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -476,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==35){
             Button b = (Button)findViewById(R.id.btn35);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -484,7 +530,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==36){
             Button b = (Button)findViewById(R.id.btn36);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -492,7 +538,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==40){
             Button b = (Button)findViewById(R.id.btn40);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -501,7 +547,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==41){
             Button b = (Button)findViewById(R.id.btn41);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -509,7 +555,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==42){
             Button b = (Button)findViewById(R.id.btn42);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -517,7 +563,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==43){
             Button b = (Button)findViewById(R.id.btn43);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -525,7 +571,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==44){
             Button b = (Button)findViewById(R.id.btn44);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -533,7 +579,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==45){
             Button b = (Button)findViewById(R.id.btn45);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -541,7 +587,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==46){
             Button b = (Button)findViewById(R.id.btn46);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -549,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==50){
             Button b = (Button)findViewById(R.id.btn50);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -558,7 +604,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==51){
             Button b = (Button)findViewById(R.id.btn51);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -566,7 +612,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==52){
             Button b = (Button)findViewById(R.id.btn52);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -574,7 +620,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==53){
             Button b = (Button)findViewById(R.id.btn53);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -582,7 +628,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==54){
             Button b = (Button)findViewById(R.id.btn54);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -590,7 +636,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==55){
             Button b = (Button)findViewById(R.id.btn55);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -598,7 +644,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==56){
             Button b = (Button)findViewById(R.id.btn56);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -606,7 +652,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==60){
             Button b = (Button)findViewById(R.id.btn60);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -615,7 +661,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==61){
             Button b = (Button)findViewById(R.id.btn61);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -623,7 +669,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==62){
             Button b = (Button)findViewById(R.id.btn62);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -631,7 +677,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==63){
             Button b = (Button)findViewById(R.id.btn63);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -639,7 +685,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==64){
             Button b = (Button)findViewById(R.id.btn64);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -647,7 +693,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id==65){
             Button b = (Button)findViewById(R.id.btn65);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
@@ -655,12 +701,238 @@ public class MainActivity extends AppCompatActivity {
         else if (id==66){
             Button b = (Button)findViewById(R.id.btn66);
             if (currentPlayer==1) {
-                b.setBackgroundColor(Color.BLUE);
+                b.setBackgroundColor(Color.parseColor("#008080"));
             }else{
                 b.setBackgroundColor(Color.RED);
             }
         }
 
+    }
+
+    public void changeColorOnGoal( int i , int j){
+        int id = i*10+j;
+
+
+        if (id==0){
+            Button b = (Button)findViewById(R.id.btn00);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==1){
+            Button b = (Button)findViewById(R.id.btn01);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==2){
+            Button b = (Button)findViewById(R.id.btn02);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==3){
+            Button b = (Button)findViewById(R.id.btn03);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==4){
+            Button b = (Button)findViewById(R.id.btn04);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==5){
+            Button b = (Button)findViewById(R.id.btn05);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==6){
+            Button b = (Button)findViewById(R.id.btn06);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==10){
+            Button b = (Button)findViewById(R.id.btn10);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+
+        else if (id==11){
+            Button b = (Button)findViewById(R.id.btn11);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==12){
+            Button b = (Button)findViewById(R.id.btn12);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==13){
+            Button b = (Button)findViewById(R.id.btn13);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==14){
+            Button b = (Button)findViewById(R.id.btn14);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==15){
+            Button b = (Button)findViewById(R.id.btn15);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==16){
+            Button b = (Button)findViewById(R.id.btn16);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==20){
+            Button b = (Button)findViewById(R.id.btn20);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+
+        else if (id==21){
+            Button b = (Button)findViewById(R.id.btn21);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==22){
+            Button b = (Button)findViewById(R.id.btn22);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==23){
+            Button b = (Button)findViewById(R.id.btn23);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==24){
+            Button b = (Button)findViewById(R.id.btn24);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==25){
+            Button b = (Button)findViewById(R.id.btn25);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==26){
+            Button b = (Button)findViewById(R.id.btn26);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==30){
+            Button b = (Button)findViewById(R.id.btn30);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+
+        else if (id==31){
+            Button b = (Button)findViewById(R.id.btn31);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==32){
+            Button b = (Button)findViewById(R.id.btn32);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==33){
+            Button b = (Button)findViewById(R.id.btn33);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==34){
+            Button b = (Button)findViewById(R.id.btn34);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==35){
+            Button b = (Button)findViewById(R.id.btn35);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==36){
+            Button b = (Button)findViewById(R.id.btn36);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==40){
+            Button b = (Button)findViewById(R.id.btn40);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+
+        else if (id==41){
+            Button b = (Button)findViewById(R.id.btn41);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==42){
+            Button b = (Button)findViewById(R.id.btn42);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==43){
+            Button b = (Button)findViewById(R.id.btn43);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==44){
+            Button b = (Button)findViewById(R.id.btn44);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==45){
+            Button b = (Button)findViewById(R.id.btn45);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==46){
+            Button b = (Button)findViewById(R.id.btn46);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==50){
+            Button b = (Button)findViewById(R.id.btn50);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+
+        else if (id==51){
+            Button b = (Button)findViewById(R.id.btn51);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==52){
+            Button b = (Button)findViewById(R.id.btn52);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==53){
+            Button b = (Button)findViewById(R.id.btn53);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==54){
+            Button b = (Button)findViewById(R.id.btn54);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==55){
+            Button b = (Button)findViewById(R.id.btn55);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==56){
+            Button b = (Button)findViewById(R.id.btn56);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==60){
+            Button b = (Button)findViewById(R.id.btn60);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+
+        else if (id==61){
+            Button b = (Button)findViewById(R.id.btn61);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==62){
+            Button b = (Button)findViewById(R.id.btn62);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==63){
+            Button b = (Button)findViewById(R.id.btn63);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==64){
+            Button b = (Button)findViewById(R.id.btn64);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==65){
+            Button b = (Button)findViewById(R.id.btn65);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+        else if (id==66){
+            Button b = (Button)findViewById(R.id.btn66);
+            b.setBackgroundColor(Color.parseColor("#7FFF00"));
+        }
+
+    }
+
+    public void disableButtons(){
+        Button b0 = findViewById(R.id.button0);
+        b0.setEnabled(false);
+        Button b1 = findViewById(R.id.button1);
+        b1.setEnabled(false);
+        Button b2 = findViewById(R.id.button2);
+        b2.setEnabled(false);
+        Button b3 = findViewById(R.id.button3);
+        b3.setEnabled(false);
+        Button b4 = findViewById(R.id.button4);
+        b4.setEnabled(false);
+        Button b5 = findViewById(R.id.button5);
+        b5.setEnabled(false);
+        Button b6 = findViewById(R.id.button6);
+        b6.setEnabled(false);
     }
 
 }
