@@ -70,11 +70,14 @@ public class MenuActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.letsgo);
         button.setOnClickListener(view -> {
-            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-            intent.putExtra("colorPlayerOne", selectionOne);
-            intent.putExtra("colorPlayerTwo", selectionTwo);
-            startActivity(intent);
-        });
+            if (selectionOne!=selectionTwo) {
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                intent.putExtra("colorPlayerOne", selectionOne);
+                intent.putExtra("colorPlayerTwo", selectionTwo);
+                startActivity(intent);
+            }else {
+                Toast.makeText(this, "PLZ Choose different colors", Toast.LENGTH_SHORT).show();
+            }});
 
     }
 }
