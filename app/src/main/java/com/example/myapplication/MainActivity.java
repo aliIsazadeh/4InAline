@@ -112,9 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             if (some == 4) {
-                TextView textView = (TextView) findViewById(R.id.goalText);
-                textView.setText("goal");
-                //ToDo set colors and set buttons
+                setGoalUpright(i,j);
             }
 
         }
@@ -154,9 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if (some == 4) {
-            TextView textView = (TextView) findViewById(R.id.goalText);
-            textView.setText("goal");
-            //ToDo set colors and set buttons
+            setGoalStraight(i,j);
         }
 
     }
@@ -201,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (some == 4) {
-            setGoalRisingCheck(i,j);
+            setGoalRising(i,j);
         }
 
 
@@ -248,16 +244,78 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (some == 4) {
-            TextView textView = (TextView) findViewById(R.id.goalText);
-            textView.setText("goal");
-            //ToDo set colors and set buttons
+            setGoalFalling(i,j);
         }
 
 
     }
 
+    //برنده شدن عمودی
+    public void setGoalUpright(int i , int j) {
+        int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
+        int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+        if (i < 6) {
+            for (int k = i; flag == table.getCurrentInt(i + 1, j); k++) {// جستجوی رو به پایین
 
-    public void setGoalRisingCheck(int i , int j){
+                if (flag == table.getCurrentInt(k + 1, j)) {
+                    changeColorOnGoal(i, j);
+                    some++;
+                } else {
+                    break;
+                }
+                if (k == 5) {
+                    break;
+                }
+
+            }
+        }
+        disableButtons();
+        TextView textView = (TextView) findViewById(R.id.goalText);
+        textView.setText("GOAL");
+
+    }
+
+    //برنده شدن افقی
+    public void setGoalStraight(int i , int j){
+        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+        int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+
+        if (j>=0&&j<6) {//جستجو به راست
+            for (int k = j; flag == table.getCurrentInt(i, j +1); k++) {
+                if (flag==table.getCurrentInt(i,k+1)){
+                    some++;
+                    changeColorOnGoal(i , k+1);
+                }else {
+                    break;
+                }
+                if (k==5){
+                    break;
+                }
+            }
+        }
+        if (j<=6&&j>0){//جستجو به چپ
+            for (int k = j; flag == table.getCurrentInt(i, j -1); k--) {
+                if (flag==table.getCurrentInt(i,k-1)){
+                    some++;
+                    changeColorOnGoal(i,k-1);
+                }else {
+                    break;
+                }
+                if (k==1){
+                    break;
+                }
+            }
+
+        }
+        disableButtons();
+        TextView textView = (TextView) findViewById(R.id.goalText);
+        textView.setText("GOAL");
+
+
+    }
+
+    //برنده شدن صعودی
+    public void setGoalRising(int i , int j){
         int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
         changeColorOnGoal(i ,j);
@@ -302,6 +360,54 @@ public class MainActivity extends AppCompatActivity {
         textView.setText("goal");
 
 
+    }
+
+    //برنده شدن نزولی
+    public void setGoalFalling(int i , int j){
+        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+        int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+
+        if (j>0&& j<=6 && i<=6&& i>0){//نزولی رو به بالا
+            for (int k = i , c = j ; flag==table.getCurrentInt(i-1,j-1); k --,c--){
+                if (flag==table.getCurrentInt(k-1,c-1)){
+                    some++;
+                    changeColor(k-1,c-1);
+                }else {
+                    break;
+                }if (some==4){
+                    break;
+                }
+                if (k==1){
+                    break;
+                }
+                if (c==1){
+                    break;
+                }
+            }
+        }
+        if (j>=0&& j<6 && i<6&& i>=0){//نزولی رو به پایین
+            for (int k = i , c = j ; flag==table.getCurrentInt(i+1,j+1); k ++,c++){
+                if (flag==table.getCurrentInt(k+1,c+1)){
+                    some++;
+                    changeColor(k+1,c+1);
+                }else {
+                    break;
+                }if (some==4){
+                    break;
+                }
+                if (k==5){
+                    break;
+                }
+                if (c==5){
+                    break;
+                }
+            }
+        }
+        if (some == 4) {
+            disableButtons();
+            TextView textView = (TextView) findViewById(R.id.goalText);
+            textView.setText("goal");
+        }
     }
 
     //متد تعویض رنگ
@@ -709,6 +815,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //تعویض رنگ خانه های برنده شده
     public void changeColorOnGoal( int i , int j){
         int id = i*10+j;
 
@@ -918,6 +1025,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //dis able کردن دکمه های اصلی
     public void disableButtons(){
         Button b0 = findViewById(R.id.button0);
         b0.setEnabled(false);
