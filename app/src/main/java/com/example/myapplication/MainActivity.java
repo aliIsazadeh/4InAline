@@ -263,11 +263,12 @@ public class MainActivity extends AppCompatActivity {
     public void setGoalUpright(int i, int j , int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+        changeColorOnGoal(i,j);
         if (i < 6) {
             for (int k = i; flag == table.getCurrentInt(i + 1, j); k++) {// جستجوی رو به پایین
 
                 if (flag == table.getCurrentInt(k + 1, j)) {
-                    changeColorOnGoal(i, j);
+                    changeColorOnGoal(k+1, j);
                     some++;
                 } else {
                     break;
@@ -288,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
     public void setGoalStraight(int i, int j , int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
-
+        changeColorOnGoal(i,j);
         if (j >= 0 && j < 6) {//جستجو به راست
             for (int k = j; flag == table.getCurrentInt(i, j + 1); k++) {
                 if (flag == table.getCurrentInt(i, k + 1)) {
@@ -328,7 +329,6 @@ public class MainActivity extends AppCompatActivity {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
         changeColorOnGoal(i, j);
-
         if (j >= 0 && j < 6 && i <= 6 && i > 0) {//صعودی رو به بالا
             for (int k = i, c = j; flag == table.getCurrentInt(i - 1, j + 1); k--, c++) {
                 if (flag == table.getCurrentInt(k - 1, c + 1)) {
@@ -379,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
     public void setGoalFalling(int i, int j, int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
-
+        changeColorOnGoal(i,j);
         if (j > 0 && j <= 6 && i <= 6 && i > 0) {//نزولی رو به بالا
             for (int k = i, c = j; flag == table.getCurrentInt(i - 1, j - 1); k--, c--) {
                 if (flag == table.getCurrentInt(k - 1, c - 1)) {
