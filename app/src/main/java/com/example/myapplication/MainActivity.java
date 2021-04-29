@@ -3,18 +3,17 @@ package com.example.myapplication;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.example.myapplication.playPlace.Table;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Table table = new Table(); //زمین بازی
@@ -757,7 +756,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Do you want to play new game");
         if (player==colorPLayerOne){
-            alert.setMessage("player  ne Win!!");
+            alert.setMessage("player one Win!!");
         }else {
             alert.setMessage("player tow Win!!");
         }
