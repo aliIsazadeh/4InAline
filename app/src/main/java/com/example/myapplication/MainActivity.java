@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import com.example.myapplication.playPlace.Table;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Table table = new Table(); //زمین بازی
