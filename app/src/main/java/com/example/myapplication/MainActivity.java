@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.playPlace.Table;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         colorPLayerOne = getIntent().getIntExtra("colorPlayerOne", 0);
         colorPLayerTwo = getIntent().getIntExtra("colorPlayerTwo", 1);
+        Toast.makeText(this, "player one selected index is :"+colorPLayerOne +" player two is: "+colorPLayerTwo, Toast.LENGTH_SHORT).show();
         currentPlayer =colorPLayerOne;
     }
 

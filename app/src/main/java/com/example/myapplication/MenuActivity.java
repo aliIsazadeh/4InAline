@@ -71,8 +71,8 @@ public class MenuActivity extends AppCompatActivity {
         Button button = findViewById(R.id.letsgo);
         button.setOnClickListener(view -> {
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
-            intent.putExtra("colorPLayerOne", selectionOne);
-            intent.putExtra("colorPLayerTwo", selectionTwo);
+            intent.putExtra("colorPlayerOne", selectionOne);
+            intent.putExtra("colorPlayerTwo", selectionTwo);
             startActivity(intent);
         });
 
