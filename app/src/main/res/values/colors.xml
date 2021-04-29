@@ -9,11 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="color_0">#c62828</color>
     <color name="color_1">#AD1457</color>
-    <color name="color_2">#6A1B9A</color>
-    <color name="color_3">#2980b9</color>
-    <color name="color_4">#2E7D32</color>
-    <color name="color_5">#F9A825</color>
-    <color name="color_6">#EF6C00</color>
-    <color name="color_7">#4E342E</color>
-    <color name="color_8">#424242</color>
+    <color name="color_2">#2980b9</color>
+    <color name="color_3">#2E7D32</color>
+    <color name="color_4">#F9A825</color>
+    <color name="color_5">#EF6C00</color>
+    <color name="color_6">#4E342E</color>
+    <color name="color_7">#424242</color>
 </resources>
