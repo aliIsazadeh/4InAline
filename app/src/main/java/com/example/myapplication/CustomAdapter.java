@@ -15,22 +15,21 @@ public class CustomAdapter extends ArrayAdapter<String> {
 
     private Context context;
 
-    public CustomAdapter(@NonNull Context context, int resource ,String[] colorNames) {
-        super(context, resource,colorNames);
-        this.context=context;
+    public CustomAdapter(@NonNull Context context, int resource, String[] colorNames) {
+        super(context, resource, colorNames);
+        this.context = context;
     }
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if (convertView==null){
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = layoutInflater.inflate(R.layout.spinner_item, null);
+        if (convertView == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.spinner_item, null);
         }
         TextView textView = (TextView) convertView.findViewById(R.id.textItemSpinner);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageItemSpinner);
         int i = position;
         i++;
-        System.out.println(i);
         textView.setText(getContext().getResources().getString(getContext().getResources().getIdentifier("__" + i, "string", getContext().getPackageName())));
         imageView.setBackgroundColor(getContext().getResources().getColor(getContext().getResources().getIdentifier("color_" + i, "color", getContext().getPackageName())));
 
@@ -40,17 +39,14 @@ public class CustomAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if (convertView==null){
+        if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.spinner_item, null);
         }
         TextView textView = (TextView) convertView.findViewById(R.id.textItemSpinner);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageItemSpinner);
-
         int i = position;
         i++;
-        System.out.println(i);
-
         textView.setText(getContext().getResources().getString(getContext().getResources().getIdentifier("__" + i, "string", getContext().getPackageName())));
         imageView.setBackgroundColor(getContext().getResources().getColor(getContext().getResources().getIdentifier("color_" + i, "color", getContext().getPackageName())));
 
