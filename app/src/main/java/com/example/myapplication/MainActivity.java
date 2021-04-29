@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
                     table.setIn(i, cum, currentPlayer);
                     changeColor(ij, currentPlayer);
-                    checkGoal(i, cum);
+                    checkGoal(i, cum,currentPlayer);
 
                     i = -1;
                 } else if (i == 0) {
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
                     table.setIn(i, cum, currentPlayer);
                     changeColor(ij, currentPlayer);
-                    checkGoal(i, cum);
+                    checkGoal(i, cum,currentPlayer);
 
                 } else if (i < 6)
                     if (!table.isEmp(i + 1, cum) && table.isEmp(i, cum)) {
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
                         table.setIn(i, cum, currentPlayer);
                         changeColor(ij, currentPlayer);
-                        checkGoal(i, cum);
+                        checkGoal(i, cum,currentPlayer);
 
                         i = -1;
 
@@ -90,15 +92,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //متد چک کردن رسیدن به هدف
-    public void checkGoal(int i, int j) {
-        checkGoalUpright(i, j);
-        checkGoalStraight(i, j);
-        checkGoalRising(i, j);
-        checkGoalFalling(i, j);
+    public void checkGoal(int i, int j, int currentPlayer) {
+        checkGoalUpright(i, j ,currentPlayer);
+        checkGoalStraight(i, j,currentPlayer);
+        checkGoalRising(i, j,currentPlayer);
+        checkGoalFalling(i, j,currentPlayer);
     }
 
     //رسیدن به هدف عمودی
-    public void checkGoalUpright(int i, int j) {// جستجو رو عمودی
+    public void checkGoalUpright(int i, int j , int currentPlayer) {// جستجو رو عمودی
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
         if (i < 6) {
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             if (some == 4) {
-                setGoalUpright(i, j);
+                setGoalUpright(i, j,currentPlayer);
             }
 
         }
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //رسیدن به هدف افقی
-    public void checkGoalStraight(int i, int j) {
+    public void checkGoalStraight(int i, int j , int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
 
@@ -155,13 +157,13 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if (some == 4) {
-            setGoalStraight(i, j);
+            setGoalStraight(i, j,currentPlayer);
         }
 
     }
 
     //رسیدن به هدف صعودی
-    public void checkGoalRising(int i, int j) {
+    public void checkGoalRising(int i, int j , int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
 
@@ -204,14 +206,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (some == 4) {
-            setGoalRising(i, j);
+            setGoalRising(i, j,currentPlayer);
         }
 
 
     }
 
     //رسیدن به هدف نزولی
-    public void checkGoalFalling(int i, int j) {
+    public void checkGoalFalling(int i, int j , int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
 
@@ -252,21 +254,21 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (some == 4) {
-            setGoalFalling(i, j);
+            setGoalFalling(i, j ,currentPlayer);
         }
 
 
     }
 
     //برنده شدن عمودی
-    public void setGoalUpright(int i, int j) {
+    public void setGoalUpright(int i, int j , int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
+        changeColorOnGoal(i,j);
         if (i < 6) {
             for (int k = i; flag == table.getCurrentInt(i + 1, j); k++) {// جستجوی رو به پایین
-
                 if (flag == table.getCurrentInt(k + 1, j)) {
-                    changeColorOnGoal(i, j);
+                    changeColorOnGoal(k+1, j);
                     some++;
                 } else {
                     break;
@@ -279,15 +281,15 @@ public class MainActivity extends AppCompatActivity {
         }
         disableButtons();
         TextView textView = (TextView) findViewById(R.id.goalText);
-        textView.setText("GOAL");
+        someOneWin(currentPlayer);
 
     }
 
     //برنده شدن افقی
-    public void setGoalStraight(int i, int j) {
+    public void setGoalStraight(int i, int j , int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
-
+        changeColorOnGoal(i,j);
         if (j >= 0 && j < 6) {//جستجو به راست
             for (int k = j; flag == table.getCurrentInt(i, j + 1); k++) {
                 if (flag == table.getCurrentInt(i, k + 1)) {
@@ -317,13 +319,13 @@ public class MainActivity extends AppCompatActivity {
         }
         disableButtons();
         TextView textView = (TextView) findViewById(R.id.goalText);
-        textView.setText("GOAL");
+        someOneWin(currentPlayer);
 
 
     }
 
     //برنده شدن صعودی
-    public void setGoalRising(int i, int j) {
+    public void setGoalRising(int i, int j , int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
         changeColorOnGoal(i, j);
@@ -369,16 +371,16 @@ public class MainActivity extends AppCompatActivity {
         }
         disableButtons();
         TextView textView = (TextView) findViewById(R.id.goalText);
-        textView.setText("goal");
+        someOneWin(currentPlayer);
 
 
     }
 
     //برنده شدن نزولی
-    public void setGoalFalling(int i, int j) {
+    public void setGoalFalling(int i, int j, int currentPlayer) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
-
+        changeColorOnGoal(i,j);
         if (j > 0 && j <= 6 && i <= 6 && i > 0) {//نزولی رو به بالا
             for (int k = i, c = j; flag == table.getCurrentInt(i - 1, j - 1); k--, c--) {
                 if (flag == table.getCurrentInt(k - 1, c - 1)) {
@@ -420,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
         if (some == 4) {
             disableButtons();
             TextView textView = (TextView) findViewById(R.id.goalText);
-            textView.setText("goal");
+            someOneWin(currentPlayer);
         }
     }
 
@@ -1289,6 +1291,32 @@ public class MainActivity extends AppCompatActivity {
         b5.setEnabled(false);
         Button b6 = findViewById(R.id.button6);
         b6.setEnabled(false);
+    }
+
+
+    public void someOneWin(int player) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Do you want to play new game");
+        if (player==colorPLayerOne){
+            alert.setMessage("player  ne Win!!");
+        }else {
+            alert.setMessage("player tow Win!!");
+        }
+
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Your action here
+            }
+        });
+
+        alert.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+
+        alert.show();
+
     }
 
 }
