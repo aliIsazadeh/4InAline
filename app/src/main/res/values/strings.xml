@@ -10,14 +10,15 @@
     <string name="_5">5</string>
     <string name="_6">6</string>
 
-    <string name="__0">red</string>
-    <string name="__1">pink</string>
-    <string name="__2">blue</string>
-    <string name="__3">green</string>
-    <string name="__4">yellow</string>
-    <string name="__5">orange</string>
-    <string name="__6">brown</string>
-    <string name="__7">grey</string>
+    <string name="__1">red</string>
+    <string name="__2">pink</string>
+    <string name="__3">blue</string>
+    <string name="__4">green</string>
+    <string name="__5">yellow</string>
+    <string name="__6">orange</string>
+    <string name="__7">brown</string>
+    <string name="__8">grey</string>
+    <string name="__9">grey</string>
 
     <string name="textview">TextView</string>
 </resources>

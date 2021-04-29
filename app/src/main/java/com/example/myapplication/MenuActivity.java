@@ -28,22 +28,22 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-
-        //todo get colors name list form string.xml
         ArrayList<String> list = new ArrayList<>();
         Field[] fields = R.string.class.getFields();
         for (Field field : fields) {
-            list.add(field.getName());
+            if (field.getName().contains("__"))
+                list.add(field.getName());
         }
-        String[] colorNames = (String[]) list.toArray();
 
+
+        String[] colorNames = Arrays.copyOf(list.toArray(), list.size(), String[].class);
         spinnerPlayerOne = findViewById(R.id.spinnerPLayerOne);
         CustomAdapter customAdapter = new CustomAdapter(this, R.layout.spinner_item, colorNames);
         spinnerPlayerOne.setAdapter(customAdapter);
         spinnerPlayerOne.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectionOne = i;
+                selectionOne = i + 1;
             }
 
             @Override
@@ -58,7 +58,7 @@ public class MenuActivity extends AppCompatActivity {
         spinnerPlayerTwo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectionTwo = i;
+                selectionTwo = i + 1;
             }
 
             @Override

@@ -30,9 +30,11 @@ public class CustomAdapter extends ArrayAdapter<String> {
         }
         TextView textView = (TextView) convertView.findViewById(R.id.textItemSpinner);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageItemSpinner);
-
-        textView.setText(getContext().getResources().getString(getContext().getResources().getIdentifier("__" + position, "string", getContext().getPackageName())));
-        imageView.setBackgroundColor(getContext().getResources().getColor(getContext().getResources().getIdentifier("color_" + position, "color", getContext().getPackageName())));
+        int i = position;
+        i++;
+        System.out.println(i);
+        textView.setText(getContext().getResources().getString(getContext().getResources().getIdentifier("__" + i, "string", getContext().getPackageName())));
+        imageView.setBackgroundColor(getContext().getResources().getColor(getContext().getResources().getIdentifier("color_" + i, "color", getContext().getPackageName())));
 
         return convertView;
     }
@@ -47,8 +49,12 @@ public class CustomAdapter extends ArrayAdapter<String> {
         TextView textView = (TextView) convertView.findViewById(R.id.textItemSpinner);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageItemSpinner);
 
-        textView.setText(getContext().getResources().getString(getContext().getResources().getIdentifier("__" + position, "string", getContext().getPackageName())));
-        imageView.setBackgroundColor(getContext().getResources().getColor(getContext().getResources().getIdentifier("color_" + position, "color", getContext().getPackageName())));
+        int i = position;
+        i++;
+        System.out.println(i);
+
+        textView.setText(getContext().getResources().getString(getContext().getResources().getIdentifier("__" + i, "string", getContext().getPackageName())));
+        imageView.setBackgroundColor(getContext().getResources().getColor(getContext().getResources().getIdentifier("color_" + i, "color", getContext().getPackageName())));
 
         return convertView;
     }
