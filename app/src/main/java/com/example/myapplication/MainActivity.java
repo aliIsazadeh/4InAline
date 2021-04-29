@@ -15,62 +15,65 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Table table = new Table(); //زمین بازی
-    int currentPlayer =1;//نفر در حال بازی
+    int currentPlayer = 1;//نفر در حال بازی
     int ij = 71;//id خانه
 
+
+    int colorPLayerOne = 0;
+    int colorPLayerTwo = 1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        colorPLayerOne = getIntent().getIntExtra("colorPlayerOne", 0);
+        colorPLayerTwo = getIntent().getIntExtra("colorPlayerTwo", 1);
     }
 
     //متد onClick
-    public  void setTaw(View v){//متد on click
+    public void setTaw(View v) {//متد on click
         setInArray(v);
     }
 
     //متد جایگذاری در زمین بازی
-    public void setInArray( View v){//متد جایگذاری در آرایه
+    public void setInArray(View v) {//متد جایگذاری در آرایه
 
-        Button b = (Button)v;
+        Button b = (Button) v;
         int cum = Integer.parseInt((String) b.getText());
 
 
-        if (!table.isEmp(0,cum)){
+        if (!table.isEmp(0, cum)) {
             v.setEnabled(false);
-        }else {
-            for (int i = 6 ; i>=0; i--){
+        } else {
+            for (int i = 6; i >= 0; i--) {
 
-                if(i==6&&table.isEmp(i,cum)){
-                    ij= i*10 + cum;
+                if (i == 6 && table.isEmp(i, cum)) {
+                    ij = i * 10 + cum;
 
-                    table.setIn(i,cum,currentPlayer);
-                    changeColor(ij , currentPlayer);
-                    checkGoal(i,cum);
-
-                    i=-1;
-                }
-                else if (i==0){
-                    ij = i*10 + cum;
-
-                    table.setIn(i,cum,currentPlayer);
+                    table.setIn(i, cum, currentPlayer);
                     changeColor(ij, currentPlayer);
-                    checkGoal(i,cum);
+                    checkGoal(i, cum);
 
-                }else if(i<6)
-                    if (!table.isEmp(i+1,cum)&&table.isEmp(i,cum)){
-                        ij = i*10 + cum;
+                    i = -1;
+                } else if (i == 0) {
+                    ij = i * 10 + cum;
 
-                        table.setIn(i,cum,currentPlayer);
+                    table.setIn(i, cum, currentPlayer);
+                    changeColor(ij, currentPlayer);
+                    checkGoal(i, cum);
+
+                } else if (i < 6)
+                    if (!table.isEmp(i + 1, cum) && table.isEmp(i, cum)) {
+                        ij = i * 10 + cum;
+
+                        table.setIn(i, cum, currentPlayer);
                         changeColor(ij, currentPlayer);
-                        checkGoal(i,cum);
+                        checkGoal(i, cum);
 
-                    i=-1;
+                        i = -1;
 
-                }
+                    }
             }
 
 
@@ -81,29 +84,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
-
     }
 
     //متد چک کردن رسیدن به هدف
-    public void checkGoal(int i , int j){
-        checkGoalUpright(i , j);
-        checkGoalStraight(i , j);
-        checkGoalRising(i,j);
-        checkGoalFalling(i,j);
+    public void checkGoal(int i, int j) {
+        checkGoalUpright(i, j);
+        checkGoalStraight(i, j);
+        checkGoalRising(i, j);
+        checkGoalFalling(i, j);
     }
 
     //رسیدن به هدف عمودی
-    public void checkGoalUpright(int i , int j){// جستجو رو عمودی
-        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+    public void checkGoalUpright(int i, int j) {// جستجو رو عمودی
+        int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
-        if (i<6) {
+        if (i < 6) {
             for (int k = i; flag == table.getCurrentInt(i + 1, j); k++) {// جستجوی رو به پایین
 
                 if (flag == table.getCurrentInt(k + 1, j)) {
                     some++;
-                }else {
+                } else {
                     break;
                 }
                 if (k == 5) {
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             if (some == 4) {
-                setGoalUpright(i,j);
+                setGoalUpright(i, j);
             }
 
         }
@@ -120,138 +120,143 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //رسیدن به هدف افقی
-    public void checkGoalStraight(int i , int j){
-        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+    public void checkGoalStraight(int i, int j) {
+        int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
 
-        if (j>=0&&j<6) {//جستجو به راست
-            for (int k = j; flag == table.getCurrentInt(i, j +1); k++) {
-                if (flag==table.getCurrentInt(i,k+1)){
+        if (j >= 0 && j < 6) {//جستجو به راست
+            for (int k = j; flag == table.getCurrentInt(i, j + 1); k++) {
+                if (flag == table.getCurrentInt(i, k + 1)) {
 
                     some++;
-                }else {
+                } else {
                     break;
                 }
-                if (k==5){
+                if (k == 5) {
                     break;
                 }
             }
         }
-        if (j<=6&&j>0){//جستجو به چپ
-            for (int k = j; flag == table.getCurrentInt(i, j -1); k--) {
-                if (flag==table.getCurrentInt(i,k-1)){
+        if (j <= 6 && j > 0) {//جستجو به چپ
+            for (int k = j; flag == table.getCurrentInt(i, j - 1); k--) {
+                if (flag == table.getCurrentInt(i, k - 1)) {
 
                     some++;
-                }else {
+                } else {
                     break;
                 }
-                if (k==1){
+                if (k == 1) {
                     break;
                 }
             }
 
         }
         if (some == 4) {
-            setGoalStraight(i,j);
+            setGoalStraight(i, j);
         }
 
     }
 
     //رسیدن به هدف صعودی
-    public void checkGoalRising(int i , int j){
-        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+    public void checkGoalRising(int i, int j) {
+        int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
 
-        if (j>=0&& j<6 && i<=6&& i>0){//صعودی رو به بالا
-            for (int k = i , c = j ; flag==table.getCurrentInt(i-1,j+1); k --,c++){
-                if (flag==table.getCurrentInt(k-1,c+1)){
+        if (j >= 0 && j < 6 && i <= 6 && i > 0) {//صعودی رو به بالا
+            for (int k = i, c = j; flag == table.getCurrentInt(i - 1, j + 1); k--, c++) {
+                if (flag == table.getCurrentInt(k - 1, c + 1)) {
                     some++;
-                }else {
-                    break;
-                }if (some==4){
+                } else {
                     break;
                 }
-                if (k==1){
+                if (some == 4) {
                     break;
                 }
-                if (c==5){
+                if (k == 1) {
+                    break;
+                }
+                if (c == 5) {
                     break;
                 }
             }
         }
 
-        if (j<=6 && j>0 && i>=0 && i<6){//صعودی رو به پایین
-            for (int k = i , c = j ; flag==table.getCurrentInt(i+1,j-1); k ++,c--){
-                if (flag==table.getCurrentInt(k+1,c-1)){
+        if (j <= 6 && j > 0 && i >= 0 && i < 6) {//صعودی رو به پایین
+            for (int k = i, c = j; flag == table.getCurrentInt(i + 1, j - 1); k++, c--) {
+                if (flag == table.getCurrentInt(k + 1, c - 1)) {
                     some++;
-                }else {
+                } else {
                     break;
-                }if (some==4){
+                }
+                if (some == 4) {
                     break;
-                }if (k==5){
+                }
+                if (k == 5) {
                     break;
-                }if (c==1){
+                }
+                if (c == 1) {
                     break;
                 }
             }
         }
 
         if (some == 4) {
-            setGoalRising(i,j);
+            setGoalRising(i, j);
         }
-
 
 
     }
 
     //رسیدن به هدف نزولی
-    public void checkGoalFalling(int i , int j){
-        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+    public void checkGoalFalling(int i, int j) {
+        int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
 
-        if (j>0&& j<=6 && i<=6&& i>0){//نزولی رو به بالا
-            for (int k = i , c = j ; flag==table.getCurrentInt(i-1,j-1); k --,c--){
-                if (flag==table.getCurrentInt(k-1,c-1)){
+        if (j > 0 && j <= 6 && i <= 6 && i > 0) {//نزولی رو به بالا
+            for (int k = i, c = j; flag == table.getCurrentInt(i - 1, j - 1); k--, c--) {
+                if (flag == table.getCurrentInt(k - 1, c - 1)) {
                     some++;
-                }else {
-                    break;
-                }if (some==4){
+                } else {
                     break;
                 }
-                if (k==1){
+                if (some == 4) {
                     break;
                 }
-                if (c==1){
+                if (k == 1) {
+                    break;
+                }
+                if (c == 1) {
                     break;
                 }
             }
         }
-        if (j>=0&& j<6 && i<6&& i>=0){//نزولی رو به پایین
-            for (int k = i , c = j ; flag==table.getCurrentInt(i+1,j+1); k ++,c++){
-                if (flag==table.getCurrentInt(k+1,c+1)){
+        if (j >= 0 && j < 6 && i < 6 && i >= 0) {//نزولی رو به پایین
+            for (int k = i, c = j; flag == table.getCurrentInt(i + 1, j + 1); k++, c++) {
+                if (flag == table.getCurrentInt(k + 1, c + 1)) {
                     some++;
-                }else {
-                    break;
-                }if (some==4){
+                } else {
                     break;
                 }
-                if (k==5){
+                if (some == 4) {
                     break;
                 }
-                if (c==5){
+                if (k == 5) {
+                    break;
+                }
+                if (c == 5) {
                     break;
                 }
             }
         }
         if (some == 4) {
-            setGoalFalling(i,j);
+            setGoalFalling(i, j);
         }
 
 
     }
 
     //برنده شدن عمودی
-    public void setGoalUpright(int i , int j) {
+    public void setGoalUpright(int i, int j) {
         int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
         if (i < 6) {
@@ -276,32 +281,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //برنده شدن افقی
-    public void setGoalStraight(int i , int j){
-        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+    public void setGoalStraight(int i, int j) {
+        int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
 
-        if (j>=0&&j<6) {//جستجو به راست
-            for (int k = j; flag == table.getCurrentInt(i, j +1); k++) {
-                if (flag==table.getCurrentInt(i,k+1)){
+        if (j >= 0 && j < 6) {//جستجو به راست
+            for (int k = j; flag == table.getCurrentInt(i, j + 1); k++) {
+                if (flag == table.getCurrentInt(i, k + 1)) {
                     some++;
-                    changeColorOnGoal(i , k+1);
-                }else {
+                    changeColorOnGoal(i, k + 1);
+                } else {
                     break;
                 }
-                if (k==5){
+                if (k == 5) {
                     break;
                 }
             }
         }
-        if (j<=6&&j>0){//جستجو به چپ
-            for (int k = j; flag == table.getCurrentInt(i, j -1); k--) {
-                if (flag==table.getCurrentInt(i,k-1)){
+        if (j <= 6 && j > 0) {//جستجو به چپ
+            for (int k = j; flag == table.getCurrentInt(i, j - 1); k--) {
+                if (flag == table.getCurrentInt(i, k - 1)) {
                     some++;
-                    changeColorOnGoal(i,k-1);
-                }else {
+                    changeColorOnGoal(i, k - 1);
+                } else {
                     break;
                 }
-                if (k==1){
+                if (k == 1) {
                     break;
                 }
             }
@@ -315,42 +320,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //برنده شدن صعودی
-    public void setGoalRising(int i , int j){
-        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+    public void setGoalRising(int i, int j) {
+        int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
-        changeColorOnGoal(i ,j);
+        changeColorOnGoal(i, j);
 
-        if (j>=0&& j<6 && i<=6&& i>0){//صعودی رو به بالا
-            for (int k = i , c = j ; flag==table.getCurrentInt(i-1,j+1); k --,c++){
-                if (flag==table.getCurrentInt(k-1,c+1)){
+        if (j >= 0 && j < 6 && i <= 6 && i > 0) {//صعودی رو به بالا
+            for (int k = i, c = j; flag == table.getCurrentInt(i - 1, j + 1); k--, c++) {
+                if (flag == table.getCurrentInt(k - 1, c + 1)) {
                     some++;
-                    changeColorOnGoal(k-1 ,c+1);
-                }else {
-                    break;
-                }if (some==4){
+                    changeColorOnGoal(k - 1, c + 1);
+                } else {
                     break;
                 }
-                if (k==1){
+                if (some == 4) {
                     break;
                 }
-                if (c==5){
+                if (k == 1) {
+                    break;
+                }
+                if (c == 5) {
                     break;
                 }
             }
         }
 
-        if (j<=6 && j>0 && i>=0 && i<6){//صعودی رو به پایین
-            for (int k = i , c = j ; flag==table.getCurrentInt(i+1,j-1); k ++,c--){
-                if (flag==table.getCurrentInt(k+1,c-1)){
+        if (j <= 6 && j > 0 && i >= 0 && i < 6) {//صعودی رو به پایین
+            for (int k = i, c = j; flag == table.getCurrentInt(i + 1, j - 1); k++, c--) {
+                if (flag == table.getCurrentInt(k + 1, c - 1)) {
                     some++;
-                    changeColorOnGoal(k+1 ,c-1);
-                }else {
+                    changeColorOnGoal(k + 1, c - 1);
+                } else {
                     break;
-                }if (some==4){
+                }
+                if (some == 4) {
                     break;
-                }if (k==5){
+                }
+                if (k == 5) {
                     break;
-                }if (c==1){
+                }
+                if (c == 1) {
                     break;
                 }
             }
@@ -363,42 +372,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //برنده شدن نزولی
-    public void setGoalFalling(int i , int j){
-        int flag = table.getCurrentInt(i , j);// مقدار آخرین خانه مقدار دهی شده
+    public void setGoalFalling(int i, int j) {
+        int flag = table.getCurrentInt(i, j);// مقدار آخرین خانه مقدار دهی شده
         int some = 1; // تعداد خانه های پشت سر هم با یک مقدار
 
-        if (j>0&& j<=6 && i<=6&& i>0){//نزولی رو به بالا
-            for (int k = i , c = j ; flag==table.getCurrentInt(i-1,j-1); k --,c--){
-                if (flag==table.getCurrentInt(k-1,c-1)){
+        if (j > 0 && j <= 6 && i <= 6 && i > 0) {//نزولی رو به بالا
+            for (int k = i, c = j; flag == table.getCurrentInt(i - 1, j - 1); k--, c--) {
+                if (flag == table.getCurrentInt(k - 1, c - 1)) {
                     some++;
-                    changeColor(k-1,c-1);
-                }else {
-                    break;
-                }if (some==4){
+                    changeColor(k - 1, c - 1);
+                } else {
                     break;
                 }
-                if (k==1){
+                if (some == 4) {
                     break;
                 }
-                if (c==1){
+                if (k == 1) {
+                    break;
+                }
+                if (c == 1) {
                     break;
                 }
             }
         }
-        if (j>=0&& j<6 && i<6&& i>=0){//نزولی رو به پایین
-            for (int k = i , c = j ; flag==table.getCurrentInt(i+1,j+1); k ++,c++){
-                if (flag==table.getCurrentInt(k+1,c+1)){
+        if (j >= 0 && j < 6 && i < 6 && i >= 0) {//نزولی رو به پایین
+            for (int k = i, c = j; flag == table.getCurrentInt(i + 1, j + 1); k++, c++) {
+                if (flag == table.getCurrentInt(k + 1, c + 1)) {
                     some++;
-                    changeColor(k+1,c+1);
-                }else {
-                    break;
-                }if (some==4){
+                    changeColor(k + 1, c + 1);
+                } else {
                     break;
                 }
-                if (k==5){
+                if (some == 4) {
                     break;
                 }
-                if (c==5){
+                if (k == 5) {
+                    break;
+                }
+                if (c == 5) {
                     break;
                 }
             }
@@ -411,404 +422,350 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //متد تعویض رنگ
-    public void changeColor( int id , int currentPlayer){
+    public void changeColor(int id, int currentPlayer) {
 
 
-        if (id==0){
-            Button b = (Button)findViewById(R.id.btn00);
-            if (currentPlayer==1) {
+        if (id == 0) {
+            Button b = (Button) findViewById(R.id.btn00);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==1){
-            Button b = (Button)findViewById(R.id.btn01);
-            if (currentPlayer==1) {
+        } else if (id == 1) {
+            Button b = (Button) findViewById(R.id.btn01);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==2){
-            Button b = (Button)findViewById(R.id.btn02);
-            if (currentPlayer==1) {
+        } else if (id == 2) {
+            Button b = (Button) findViewById(R.id.btn02);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==3){
-            Button b = (Button)findViewById(R.id.btn03);
-            if (currentPlayer==1) {
+        } else if (id == 3) {
+            Button b = (Button) findViewById(R.id.btn03);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==4){
-            Button b = (Button)findViewById(R.id.btn04);
-            if (currentPlayer==1) {
+        } else if (id == 4) {
+            Button b = (Button) findViewById(R.id.btn04);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==5){
-            Button b = (Button)findViewById(R.id.btn05);
-            if (currentPlayer==1) {
+        } else if (id == 5) {
+            Button b = (Button) findViewById(R.id.btn05);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==6){
-            Button b = (Button)findViewById(R.id.btn06);
-            if (currentPlayer==1) {
+        } else if (id == 6) {
+            Button b = (Button) findViewById(R.id.btn06);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==10){
-            Button b = (Button)findViewById(R.id.btn10);
-            if (currentPlayer==1) {
+        } else if (id == 10) {
+            Button b = (Button) findViewById(R.id.btn10);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-
-        else if (id==11){
-            Button b = (Button)findViewById(R.id.btn11);
-            if (currentPlayer==1) {
+        } else if (id == 11) {
+            Button b = (Button) findViewById(R.id.btn11);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==12){
-            Button b = (Button)findViewById(R.id.btn12);
-            if (currentPlayer==1) {
+        } else if (id == 12) {
+            Button b = (Button) findViewById(R.id.btn12);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==13){
-            Button b = (Button)findViewById(R.id.btn13);
-            if (currentPlayer==1) {
+        } else if (id == 13) {
+            Button b = (Button) findViewById(R.id.btn13);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==14){
-            Button b = (Button)findViewById(R.id.btn14);
-            if (currentPlayer==1) {
+        } else if (id == 14) {
+            Button b = (Button) findViewById(R.id.btn14);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==15){
-            Button b = (Button)findViewById(R.id.btn15);
-            if (currentPlayer==1) {
+        } else if (id == 15) {
+            Button b = (Button) findViewById(R.id.btn15);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==16){
-            Button b = (Button)findViewById(R.id.btn16);
-            if (currentPlayer==1) {
+        } else if (id == 16) {
+            Button b = (Button) findViewById(R.id.btn16);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==20){
-            Button b = (Button)findViewById(R.id.btn20);
-            if (currentPlayer==1) {
+        } else if (id == 20) {
+            Button b = (Button) findViewById(R.id.btn20);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-
-        else if (id==21){
-            Button b = (Button)findViewById(R.id.btn21);
-            if (currentPlayer==1) {
+        } else if (id == 21) {
+            Button b = (Button) findViewById(R.id.btn21);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==22){
-            Button b = (Button)findViewById(R.id.btn22);
-            if (currentPlayer==1) {
+        } else if (id == 22) {
+            Button b = (Button) findViewById(R.id.btn22);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==23){
-            Button b = (Button)findViewById(R.id.btn23);
-            if (currentPlayer==1) {
+        } else if (id == 23) {
+            Button b = (Button) findViewById(R.id.btn23);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==24){
-            Button b = (Button)findViewById(R.id.btn24);
-            if (currentPlayer==1) {
+        } else if (id == 24) {
+            Button b = (Button) findViewById(R.id.btn24);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==25){
-            Button b = (Button)findViewById(R.id.btn25);
-            if (currentPlayer==1) {
+        } else if (id == 25) {
+            Button b = (Button) findViewById(R.id.btn25);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==26){
-            Button b = (Button)findViewById(R.id.btn26);
-            if (currentPlayer==1) {
+        } else if (id == 26) {
+            Button b = (Button) findViewById(R.id.btn26);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==30){
-            Button b = (Button)findViewById(R.id.btn30);
-            if (currentPlayer==1) {
+        } else if (id == 30) {
+            Button b = (Button) findViewById(R.id.btn30);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-
-        else if (id==31){
-            Button b = (Button)findViewById(R.id.btn31);
-            if (currentPlayer==1) {
+        } else if (id == 31) {
+            Button b = (Button) findViewById(R.id.btn31);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==32){
-            Button b = (Button)findViewById(R.id.btn32);
-            if (currentPlayer==1) {
+        } else if (id == 32) {
+            Button b = (Button) findViewById(R.id.btn32);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==33){
-            Button b = (Button)findViewById(R.id.btn33);
-            if (currentPlayer==1) {
+        } else if (id == 33) {
+            Button b = (Button) findViewById(R.id.btn33);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==34){
-            Button b = (Button)findViewById(R.id.btn34);
-            if (currentPlayer==1) {
+        } else if (id == 34) {
+            Button b = (Button) findViewById(R.id.btn34);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==35){
-            Button b = (Button)findViewById(R.id.btn35);
-            if (currentPlayer==1) {
+        } else if (id == 35) {
+            Button b = (Button) findViewById(R.id.btn35);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==36){
-            Button b = (Button)findViewById(R.id.btn36);
-            if (currentPlayer==1) {
+        } else if (id == 36) {
+            Button b = (Button) findViewById(R.id.btn36);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==40){
-            Button b = (Button)findViewById(R.id.btn40);
-            if (currentPlayer==1) {
+        } else if (id == 40) {
+            Button b = (Button) findViewById(R.id.btn40);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-
-        else if (id==41){
-            Button b = (Button)findViewById(R.id.btn41);
-            if (currentPlayer==1) {
+        } else if (id == 41) {
+            Button b = (Button) findViewById(R.id.btn41);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==42){
-            Button b = (Button)findViewById(R.id.btn42);
-            if (currentPlayer==1) {
+        } else if (id == 42) {
+            Button b = (Button) findViewById(R.id.btn42);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==43){
-            Button b = (Button)findViewById(R.id.btn43);
-            if (currentPlayer==1) {
+        } else if (id == 43) {
+            Button b = (Button) findViewById(R.id.btn43);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==44){
-            Button b = (Button)findViewById(R.id.btn44);
-            if (currentPlayer==1) {
+        } else if (id == 44) {
+            Button b = (Button) findViewById(R.id.btn44);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==45){
-            Button b = (Button)findViewById(R.id.btn45);
-            if (currentPlayer==1) {
+        } else if (id == 45) {
+            Button b = (Button) findViewById(R.id.btn45);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==46){
-            Button b = (Button)findViewById(R.id.btn46);
-            if (currentPlayer==1) {
+        } else if (id == 46) {
+            Button b = (Button) findViewById(R.id.btn46);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==50){
-            Button b = (Button)findViewById(R.id.btn50);
-            if (currentPlayer==1) {
+        } else if (id == 50) {
+            Button b = (Button) findViewById(R.id.btn50);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-
-        else if (id==51){
-            Button b = (Button)findViewById(R.id.btn51);
-            if (currentPlayer==1) {
+        } else if (id == 51) {
+            Button b = (Button) findViewById(R.id.btn51);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==52){
-            Button b = (Button)findViewById(R.id.btn52);
-            if (currentPlayer==1) {
+        } else if (id == 52) {
+            Button b = (Button) findViewById(R.id.btn52);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==53){
-            Button b = (Button)findViewById(R.id.btn53);
-            if (currentPlayer==1) {
+        } else if (id == 53) {
+            Button b = (Button) findViewById(R.id.btn53);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==54){
-            Button b = (Button)findViewById(R.id.btn54);
-            if (currentPlayer==1) {
+        } else if (id == 54) {
+            Button b = (Button) findViewById(R.id.btn54);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==55){
-            Button b = (Button)findViewById(R.id.btn55);
-            if (currentPlayer==1) {
+        } else if (id == 55) {
+            Button b = (Button) findViewById(R.id.btn55);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==56){
-            Button b = (Button)findViewById(R.id.btn56);
-            if (currentPlayer==1) {
+        } else if (id == 56) {
+            Button b = (Button) findViewById(R.id.btn56);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==60){
-            Button b = (Button)findViewById(R.id.btn60);
-            if (currentPlayer==1) {
+        } else if (id == 60) {
+            Button b = (Button) findViewById(R.id.btn60);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-
-        else if (id==61){
-            Button b = (Button)findViewById(R.id.btn61);
-            if (currentPlayer==1) {
+        } else if (id == 61) {
+            Button b = (Button) findViewById(R.id.btn61);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==62){
-            Button b = (Button)findViewById(R.id.btn62);
-            if (currentPlayer==1) {
+        } else if (id == 62) {
+            Button b = (Button) findViewById(R.id.btn62);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==63){
-            Button b = (Button)findViewById(R.id.btn63);
-            if (currentPlayer==1) {
+        } else if (id == 63) {
+            Button b = (Button) findViewById(R.id.btn63);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==64){
-            Button b = (Button)findViewById(R.id.btn64);
-            if (currentPlayer==1) {
+        } else if (id == 64) {
+            Button b = (Button) findViewById(R.id.btn64);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==65){
-            Button b = (Button)findViewById(R.id.btn65);
-            if (currentPlayer==1) {
+        } else if (id == 65) {
+            Button b = (Button) findViewById(R.id.btn65);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
-        }
-        else if (id==66){
-            Button b = (Button)findViewById(R.id.btn66);
-            if (currentPlayer==1) {
+        } else if (id == 66) {
+            Button b = (Button) findViewById(R.id.btn66);
+            if (currentPlayer == 1) {
                 b.setBackgroundColor(Color.parseColor("#008080"));
-            }else{
+            } else {
                 b.setBackgroundColor(Color.RED);
             }
         }
@@ -816,217 +773,163 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //تعویض رنگ خانه های برنده شده
-    public void changeColorOnGoal( int i , int j){
-        int id = i*10+j;
+    public void changeColorOnGoal(int i, int j) {
+        int id = i * 10 + j;
 
 
-        if (id==0){
-            Button b = (Button)findViewById(R.id.btn00);
+        if (id == 0) {
+            Button b = (Button) findViewById(R.id.btn00);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==1){
-            Button b = (Button)findViewById(R.id.btn01);
+        } else if (id == 1) {
+            Button b = (Button) findViewById(R.id.btn01);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==2){
-            Button b = (Button)findViewById(R.id.btn02);
+        } else if (id == 2) {
+            Button b = (Button) findViewById(R.id.btn02);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==3){
-            Button b = (Button)findViewById(R.id.btn03);
+        } else if (id == 3) {
+            Button b = (Button) findViewById(R.id.btn03);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==4){
-            Button b = (Button)findViewById(R.id.btn04);
+        } else if (id == 4) {
+            Button b = (Button) findViewById(R.id.btn04);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==5){
-            Button b = (Button)findViewById(R.id.btn05);
+        } else if (id == 5) {
+            Button b = (Button) findViewById(R.id.btn05);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==6){
-            Button b = (Button)findViewById(R.id.btn06);
+        } else if (id == 6) {
+            Button b = (Button) findViewById(R.id.btn06);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==10){
-            Button b = (Button)findViewById(R.id.btn10);
+        } else if (id == 10) {
+            Button b = (Button) findViewById(R.id.btn10);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-
-        else if (id==11){
-            Button b = (Button)findViewById(R.id.btn11);
+        } else if (id == 11) {
+            Button b = (Button) findViewById(R.id.btn11);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==12){
-            Button b = (Button)findViewById(R.id.btn12);
+        } else if (id == 12) {
+            Button b = (Button) findViewById(R.id.btn12);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==13){
-            Button b = (Button)findViewById(R.id.btn13);
+        } else if (id == 13) {
+            Button b = (Button) findViewById(R.id.btn13);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==14){
-            Button b = (Button)findViewById(R.id.btn14);
+        } else if (id == 14) {
+            Button b = (Button) findViewById(R.id.btn14);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==15){
-            Button b = (Button)findViewById(R.id.btn15);
+        } else if (id == 15) {
+            Button b = (Button) findViewById(R.id.btn15);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==16){
-            Button b = (Button)findViewById(R.id.btn16);
+        } else if (id == 16) {
+            Button b = (Button) findViewById(R.id.btn16);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==20){
-            Button b = (Button)findViewById(R.id.btn20);
+        } else if (id == 20) {
+            Button b = (Button) findViewById(R.id.btn20);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-
-        else if (id==21){
-            Button b = (Button)findViewById(R.id.btn21);
+        } else if (id == 21) {
+            Button b = (Button) findViewById(R.id.btn21);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==22){
-            Button b = (Button)findViewById(R.id.btn22);
+        } else if (id == 22) {
+            Button b = (Button) findViewById(R.id.btn22);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==23){
-            Button b = (Button)findViewById(R.id.btn23);
+        } else if (id == 23) {
+            Button b = (Button) findViewById(R.id.btn23);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==24){
-            Button b = (Button)findViewById(R.id.btn24);
+        } else if (id == 24) {
+            Button b = (Button) findViewById(R.id.btn24);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==25){
-            Button b = (Button)findViewById(R.id.btn25);
+        } else if (id == 25) {
+            Button b = (Button) findViewById(R.id.btn25);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==26){
-            Button b = (Button)findViewById(R.id.btn26);
+        } else if (id == 26) {
+            Button b = (Button) findViewById(R.id.btn26);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==30){
-            Button b = (Button)findViewById(R.id.btn30);
+        } else if (id == 30) {
+            Button b = (Button) findViewById(R.id.btn30);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-
-        else if (id==31){
-            Button b = (Button)findViewById(R.id.btn31);
+        } else if (id == 31) {
+            Button b = (Button) findViewById(R.id.btn31);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==32){
-            Button b = (Button)findViewById(R.id.btn32);
+        } else if (id == 32) {
+            Button b = (Button) findViewById(R.id.btn32);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==33){
-            Button b = (Button)findViewById(R.id.btn33);
+        } else if (id == 33) {
+            Button b = (Button) findViewById(R.id.btn33);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==34){
-            Button b = (Button)findViewById(R.id.btn34);
+        } else if (id == 34) {
+            Button b = (Button) findViewById(R.id.btn34);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==35){
-            Button b = (Button)findViewById(R.id.btn35);
+        } else if (id == 35) {
+            Button b = (Button) findViewById(R.id.btn35);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==36){
-            Button b = (Button)findViewById(R.id.btn36);
+        } else if (id == 36) {
+            Button b = (Button) findViewById(R.id.btn36);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==40){
-            Button b = (Button)findViewById(R.id.btn40);
+        } else if (id == 40) {
+            Button b = (Button) findViewById(R.id.btn40);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-
-        else if (id==41){
-            Button b = (Button)findViewById(R.id.btn41);
+        } else if (id == 41) {
+            Button b = (Button) findViewById(R.id.btn41);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==42){
-            Button b = (Button)findViewById(R.id.btn42);
+        } else if (id == 42) {
+            Button b = (Button) findViewById(R.id.btn42);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==43){
-            Button b = (Button)findViewById(R.id.btn43);
+        } else if (id == 43) {
+            Button b = (Button) findViewById(R.id.btn43);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==44){
-            Button b = (Button)findViewById(R.id.btn44);
+        } else if (id == 44) {
+            Button b = (Button) findViewById(R.id.btn44);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==45){
-            Button b = (Button)findViewById(R.id.btn45);
+        } else if (id == 45) {
+            Button b = (Button) findViewById(R.id.btn45);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==46){
-            Button b = (Button)findViewById(R.id.btn46);
+        } else if (id == 46) {
+            Button b = (Button) findViewById(R.id.btn46);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==50){
-            Button b = (Button)findViewById(R.id.btn50);
+        } else if (id == 50) {
+            Button b = (Button) findViewById(R.id.btn50);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-
-        else if (id==51){
-            Button b = (Button)findViewById(R.id.btn51);
+        } else if (id == 51) {
+            Button b = (Button) findViewById(R.id.btn51);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==52){
-            Button b = (Button)findViewById(R.id.btn52);
+        } else if (id == 52) {
+            Button b = (Button) findViewById(R.id.btn52);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==53){
-            Button b = (Button)findViewById(R.id.btn53);
+        } else if (id == 53) {
+            Button b = (Button) findViewById(R.id.btn53);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==54){
-            Button b = (Button)findViewById(R.id.btn54);
+        } else if (id == 54) {
+            Button b = (Button) findViewById(R.id.btn54);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==55){
-            Button b = (Button)findViewById(R.id.btn55);
+        } else if (id == 55) {
+            Button b = (Button) findViewById(R.id.btn55);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==56){
-            Button b = (Button)findViewById(R.id.btn56);
+        } else if (id == 56) {
+            Button b = (Button) findViewById(R.id.btn56);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==60){
-            Button b = (Button)findViewById(R.id.btn60);
+        } else if (id == 60) {
+            Button b = (Button) findViewById(R.id.btn60);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-
-        else if (id==61){
-            Button b = (Button)findViewById(R.id.btn61);
+        } else if (id == 61) {
+            Button b = (Button) findViewById(R.id.btn61);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==62){
-            Button b = (Button)findViewById(R.id.btn62);
+        } else if (id == 62) {
+            Button b = (Button) findViewById(R.id.btn62);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==63){
-            Button b = (Button)findViewById(R.id.btn63);
+        } else if (id == 63) {
+            Button b = (Button) findViewById(R.id.btn63);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==64){
-            Button b = (Button)findViewById(R.id.btn64);
+        } else if (id == 64) {
+            Button b = (Button) findViewById(R.id.btn64);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==65){
-            Button b = (Button)findViewById(R.id.btn65);
+        } else if (id == 65) {
+            Button b = (Button) findViewById(R.id.btn65);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
-        }
-        else if (id==66){
-            Button b = (Button)findViewById(R.id.btn66);
+        } else if (id == 66) {
+            Button b = (Button) findViewById(R.id.btn66);
             b.setBackgroundColor(Color.parseColor("#7FFF00"));
         }
 
     }
 
     //dis able کردن دکمه های اصلی
-    public void disableButtons(){
+    public void disableButtons() {
         Button b0 = findViewById(R.id.button0);
         b0.setEnabled(false);
         Button b1 = findViewById(R.id.button1);
